@@ -16,3 +16,6 @@ def setver(db, ver):
   else:
     db.execute('insert into version_info (ver) values (?)', (ver,))
   db.commit()
+
+def latest(db, num = '50'):
+  return db.execute('select pkgname,pkgarch,forarch,mtime,owner,info from pkginfo where (pkgarch = forarch and state = 1) order by mtime desc limit (?)', (num,))
