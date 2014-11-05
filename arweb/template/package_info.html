@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Arch Linux CN Packages</title>
+    <link rel="stylesheet" href="https://www.archlinuxcn.org/wp-content/themes/askin2010/style.css" type="text/css" />
+    <link rel="stylesheet" href="/static/packages.css">
+</head>
+<body>
+    <!-- navbar -->
+    <div id="archnavbar" class="anb-home">
+        <div id="archnavbarlogo">
+            <h1>
+                <a href="/" title="Arch Linux 中文社区">Arch Linux</a>
+            </h1>
+        </div>
+        <div id="archnavbarmenu">
+            <ul id="archnavbarlist">
+                <li id="anb-home">
+                    <a href="/">Home</a>
+                </li>
+                <li id="anb-packages" class="selected">
+                    <a href="https://www.archlinuxcn.org/packages" title="China Community packages">Packages</a>
+                </li>
+                <li id="anb-forums">
+                    <a href="https://bbs.archlinuxcn.org" title="China Community forums">Forums</a>
+                </li>
+                <li id="anb-wiki">
+                    <a href="https://wiki.archlinux.org/index.php/Main_Page_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" title="Offical Documentation">Wiki</a>
+                </li>
+                <li id="anb-aur">
+                    <a href="https://aur.archlinux.org/" title="Arch Linux User Repository">AUR</a>
+                </li>
+                <li id="anb-download">
+                    <a href="https://archlinux.org/download/" title="Get Arch Linux">Download</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /navbar -->
+    <!-- content -->
+    <div id="content">
+        <div id="archdev-navbar"></div>
+
+        <div id="pkgdetails" class="box">
+            <h2>{{info.get('pkgname')}} {{info.get('pkgver')}}</h2>
+
+            <div id="detailslinks" class="listing">
+                <div id="actionlist">
+                    <h4>Package Actions</h4>
+                    <ul class="small">
+                        <li>
+                            <a href="https://github.com/archlinuxcn/repo/tree/master/{{info.get('pkgname')}}" title="View source files for {{info.get('pkgname')}}">Source Files</a>
+                            /
+                            <a href="https://github.com/archlinuxcn/repo/commits/master/{{info.get('pkgname')}}" title="View changes for {{info.get('pkgname')}}">View Changes</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/archlinuxcn/repo/issues" title="View existing bug tickets for {{info.get('pkgname')}}">Bug Reports</a>
+                            /
+                            <a href="https://github.com/archlinuxcn/repo/issues/new" title="Report new bug for {{info.get('pkgname')}}">Add New Bug</a>
+                        </li>
+                        <li>
+                            <a href="https://wiki.archlinux.org/index.php/Special:Search?search={{info.get('pkgname')}}" title="Search wiki for {{info.get('pkgname')}}">Search Wiki</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/archlinuxcn/repo/issues/new?title=[{{info.get('pkgname')}}]%20{{info.get('pkgver')}}%20out-of-date" title="Flag {{info.get('pkgname')}} as out-of-date">Flag Package Out-of-Date</a>
+                        </li>
+                        <li>
+                            <a href="{{info.get('download')}}" target="_blank" rel="nofollow" title="Download {{info.get('pkgname')}} from mirror">Download From Mirror</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+
+            <div itemscope itemtype="http://schema.org/SoftwareApplication">
+                <meta itemprop="name" content="{{info.get('pkgname')}}"/>
+                <meta itemprop="version" content="{{info.get('pkgver')}}"/>
+                <meta itemprop="softwareVersion" content="{{info.get('pkgver')}}"/>
+                <meta itemprop="fileSize" content="{{info.get('size')}}"/>
+                <meta itemprop="dateCreated" content="{{info.get('builddate')}}"/>
+                <meta itemprop="datePublished" content="{{info.get('mtime')}}"/>
+                <meta itemprop="operatingSystem" content="Arch Linux"/>
+                <table id="pkginfo">
+                    <tr>
+                        <th>Architecture:</th>
+                        <td>
+                            <a href="/?arch={{info.get('arch')}}"
+                    title="Browse packages for {{info.get('arch')}} architecture">{{info.get('arch')}}</a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Description:</th>
+                        <td class="wrap" itemprop="description">{{info.get('pkgdesc')}}</td>
+                    </tr>
+                    <tr>
+                        <th>Upstream URL:</th>
+                        <td>
+                            <a itemprop="url" href="{{info.get('url')}}"
+                    title="Visit the website for {{info.get('pkgname')}}">{{info.get('url')}}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>License(s):</th>
+                        <td class="wrap">{{' , '.join(info.get('license'))}}</td>
+                    </tr>
+                    <tr>
+                        <th>Package Size:</th>
+                        <td>{{info.get('filesize')}}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Last Packager:</th>
+                        <td class="wrap">{{info.get('packager')}}</td>
+                    </tr>
+                    <tr>
+                        <th>Build Date:</th>
+                        <td>{{info.get('builddate')}}</td>
+                    </tr>
+                    <tr>
+                        <th>Last Updated:</th>
+                        <td>{{info.get('mtime')}}</td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+        
+        <!-- footer -->
+        <div id="footer">
+            <p>
+                © 2012
+                <a href="https://www.archlinuxcn.org">Arch Linux Chinese Community</a>
+                | Arch Linux 中文社区
+                <br />        
+                <a href="https://www.gnu.org/licenses/fdl-1.3-standalone.html">GNU FDL 1.3</a>
+                <br />        
+                Original designed by
+                <a href="https://www.archlinux.org">Archlinux.org</a>
+                &#183;
+                <a href="https://validator.w3.org/check/referer">XHTML</a>
+                &#183;
+                <a href="https://jigsaw.w3.org/css-validator/check/referer">CSS</a>
+                &#183;
+                <a href="https://www.archlinuxcn.org/feed/">RSS</a>
+                <br />        
+                The Arch Linux name and logo are recognized trademarks by
+                <a href="mailto:jvinet@zeroflux.org">Judd Vinet</a>
+                &amp;
+                <a href="mailto:aaron@archlinux.org">Aaron Griffin</a>
+                . Some rights reserved.
+            </p>
+        </div>
+        <!-- /footer -->
+    </div>
+    <!-- /content -->
+</body>
+</html>

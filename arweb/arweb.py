@@ -7,6 +7,7 @@ from archrepo2 import dbutil
 import sqlite3
 import pickle
 import math
+import re
 from datetime import date
 
 settings = {
@@ -31,7 +32,14 @@ def _execute(query):
     connection.close()
     return result
 
-def _parseSort(sort):
+def sizeFormat(num, suffix='B'):
+    for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
+        if abs(num) < 1024.0:
+            return "%3.1f%s%s" % (num, unit, suffix)
+        num /= 1024.0
+    return "%.1f%s%s" % (num, 'Yi', suffix)
+
+def parseSort(sort):
     try:
         if sort.startswith('-'):
             key = sort[1:]
@@ -61,7 +69,7 @@ class PackagesHandle(tornado.web.RequestHandler):
         except Exception:
             page_cur = 1
 
-        order = _parseSort(self.get_argument('sort', 'mtime').strip())
+        order = parseSort(self.get_argument('sort', 'mtime').strip())
         order_str = ' '.join(order)
         if order[0] == 'pkgarch':
             order_str += ' , pkgname asc'
@@ -87,8 +95,23 @@ class PackagesHandle(tornado.web.RequestHandler):
                     page_cur = page_cur,
                     order = order,)
 
+class PackageInfoHandle(tornado.web.RequestHandler):
+    def get(self, arch, pkgname):
+        pkgname = pkgname.strip('/')
+        pkginfo = _execute('select mtime,filename,info from pkginfo where pkgname = "' + pkgname + '" and forarch = "' + arch + '" and state = 1 order by mtime desc limit 1')
+        info = pickle.loads(pkginfo[0][-1])
+        info['mtime'] = date.fromtimestamp(int(pkginfo[0][0]))
+        info['builddate'] = date.fromtimestamp(int(info.get('builddate')))
+        info['filesize'] = sizeFormat(int(info.get('size')))
+        pat = re.compile(r"<[^>]*>")
+        info['packager'] = pat.sub("",info['packager'])
+        info['download'] = 'http://repo.archlinuxcn.org/' + pkginfo[0][1]
+        self.render("package_info.html", info = info)
+
+
 application = tornado.web.Application([
     (r"/", PackagesHandle),
+    (r"/(any|x86_64|i686)/(.*)/?", PackageInfoHandle)
 ], **settings)
 
 if __name__ == "__main__":
