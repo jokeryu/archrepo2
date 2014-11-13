@@ -14,9 +14,11 @@ import time
 import hashlib
 import pickle
 from os.path import relpath
+import datetime
 
 import pyinotify
 Event = pyinotify.Event
+import PyRSS2Gen
 from tornado.ioloop import IOLoop
 import tornado.process
 
@@ -375,6 +377,7 @@ class EventHandler(pyinotify.ProcessEvent):
             pass
 
     callback(d, act)
+    genRSS(base)
 
   def _real_dispatch(self, d, act):
     if act.action == 'add':
@@ -451,10 +454,68 @@ class EventHandler(pyinotify.ProcessEvent):
       self._db.execute('''delete from sigfiles where filename = ? and pkgrepo = ?''',
                        (rpath, self.name))
 
+class MyRSS2(PyRSS2Gen.RSS2):
+  PyRSS2Gen.RSS2.rss_attrs = {'version': '2.0', 'xmlns:atom': 'http://www.w3.org/2005/Atom'}
+  def publish_extensions(self, handler):
+    PyRSS2Gen._element(handler, 'atom:link', None, {'href': 'http://repo.archlinux.cn', 'rel': 'self'})
+
 def filterPkg(path):
   if isinstance(path, Event):
     path = path.pathname
   return not _pkgfile_pat.search(path)
+
+def dict_factory(cursor, row):
+  d = {}
+  for idx, col in enumerate(cursor.description):
+    try:
+      info = pickle.loads(row[idx])
+      for k, v in enumerate(info):
+        d[v] = info[v]
+    except TypeError:
+      d[col[0]] = row[idx]
+      pass
+
+  return d
+
+def genRSS(base, num=50):
+  db = os.path.join(base, 'pkginfo.db')
+  rssfile = os.path.join(base, 'rss')
+  base_url = 'http://www.archlinuxcn.org/packages'
+  items = []
+  conn = sqlite3.connect(db)
+  conn.row_factory = dict_factory
+  cur = conn.cursor()
+
+  pkgs = cur.execute('''select mtime, info
+                        from pkginfo
+                        where pkgarch = forarch and state = 1
+                        order by mtime desc
+                        limit ?''', (num,))
+  for pkg in pkgs:
+    items.append(PyRSS2Gen.RSSItem(
+      title = ' '.join([pkg['pkgname'], pkg['pkgver'], pkg['arch']]),
+      link = '/'.join([base_url, pkg['arch'], pkg['pkgname']]),
+      description = pkg['pkgdesc'],
+      pubDate = datetime.datetime.fromtimestamp(pkg['mtime']),
+      categories = [pkg['arch']],
+      guid = PyRSS2Gen.Guid('tag:www.archlinuxcn.org,%s:/packages/%s/%s/%s'
+                            % (datetime.date.fromtimestamp(pkg['mtime']),
+                               pkg['arch'], pkg['pkgname'], pkg['mtime']), 0)
+    ))
+
+  rss = MyRSS2(
+    title = 'Arch Linux CN: Recent package updates',
+    link = 'http://repo.archlinuxcn.org',
+    lastBuildDate = datetime.datetime.now(),
+    items = items,
+    generator = 'archrepo2',
+    description = 'Recently updated packages in the Arch Linux CN package repository.'
+  )
+
+  conn.close()
+  logger.info('Generating RSS file %s.', rssfile)
+  with open(rssfile, 'w') as file:
+    rss.write_xml(file, 'utf-8')
 
 def pkgsortkey(path):
   pkg = archpkg.PkgNameInfo.parseFilename(os.path.split(path)[1])
