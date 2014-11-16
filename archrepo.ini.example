@@ -48,4 +48,9 @@ notification-secret: JiUHuGY987G76djItfOskOj
 # If for any reason, you don't want actual database creation or update:
 #without-db: true
 
+[repository_web]
+debug: true
+page-size: 100
+port: 8888
+
 # vim: se ft=dosini:

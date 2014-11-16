@@ -1,0 +1,380 @@
+/*
+Theme Name: askin2010
+License: GNU General Public License
+License URI: license.txt
+*/
+@import url('https://www.archlinuxcn.org/wp-content/themes/askin2010/archnavbar.css');
+/* Theme origine: www.archlinux.dk */
+* { margin: 0; padding: 0; line-height: 1.4; }
+* ul { padding: 10px 20px; }
+
+/* body { min-width: 650px; background: #e4eeff; color: #444; font: normal 100% sans-serif; text-align: left; } */
+body { min-width: 650px; background: #f6f9fc; color: #222; font: normal 100% sans-serif; text-align: left; }
+p { margin: .33em 0 1em; }
+ol, ul { margin-bottom: 1em; padding-left: 2em; }
+ul { list-style: none; }
+code { font: 1.0em monospace; padding: 0.15em 0.25em; }
+pre { font: 1.0em monospace; border: 1px solid #bdb; background: #dfd; padding: 0.5em; margin: 0.25em 2em; }
+blockquote { margin: 1.5em 2em; }
+input { vertical-align: middle; }
+.clear { clear: both; }
+hr { border: none; border-top: 1px solid #888; }
+img { border: 0; }
+
+/*
+ * Divs
+ */
+
+#content { font-size: 0.812em; }
+#archnavbar ul li.selected a { color: white !important; }
+/* #head_container {
+	height: 200px;
+} */
+
+a { text-decoration: none; }
+a:link, th a:visited { color: #0771a6; }
+a:visited { color: #0771a6; }
+a:hover { text-decoration: underline; }
+a:active { color: #0771a6; }
+
+div#content { width: 95%; margin: 0 auto; text-align: left; } 
+div#content-left-wrapper { float: left; width: 100%; } /* req to keep content above sidebar in source code */ 
+div#content-left { margin: 0 340px 0 0; }
+div#content-right { float: left; width: 300px; margin-left: -300px; }
+/* div.box { margin-bottom: 1.5em; padding: 0.65em; background: #fff; border: 1px solid #bcd; } */
+div.box { margin-bottom: 1.5em; padding: 0.65em; background: #ecf2f5; border: 1px solid #bcd; }
+div#footer { clear: both; margin: 2em 0 1em; }
+div#footer p { margin: 0; text-align: center; font-size: 0.85em; }
+
+div.center, table.center, img.center { width: auto; margin-left: auto; margin-right: auto; }
+p.center, td.center, th.center { text-align: center; }
+
+#intro p.readmore { margin: -0.5em 0 0 0; font-size: .9em; text-align: right; }
+
+#news { margin-top: 1.5em; }
+#news p { margin-bottom: 1.5em; }
+#news h3 { border-bottom: 1px solid #888; }
+#news .more { font-weight: normal; }
+#news .rss-icon { float: right; margin: -1.6em 0.4em 0 0; }
+#news h4 { font-size: 1em; margin-top: 1.5em; border-bottom: 1px dotted #bbb; }
+#news .timestamp { float: right; font-size: 0.85em; margin: -1.8em 0.5em 0 0; }
+
+#pkgsearch { padding: 1em 0.75em; background: #3ad; color: #fff; border: 1px solid #08b; } 
+#pkgsearch label { width: auto; padding: 0.1em 0; }
+#pkgsearch input { width: 10em; float: right; font-size: 1em; color: #000; background: #fff; border: 1px solid #09c; }
+
+div#nav-sidebar ul { list-style: none; margin: 0.5em 0 0.5em 1em; padding: 0; }
+div.widget { margin-bottom: 1.5em; }
+
+form p { margin: 0.5em 0; }
+fieldset { border: 0; }
+label { width: 12em; vertical-align: top; display: inline-block; font-weight: bold; }
+input[type=text], input[type=password], textarea { padding: 0.10em; }
+form.general-form label, form.general-form .form-help { width: 10em; vertical-align: top; display: inline-block; }
+form.general-form input[type=text], form.general-form textarea { width: 45%; }
+
+#pkg-updates h3 { margin: 0 0 0.3em; }
+#pkg-updates .more { font-weight: normal; }
+#pkg-updates .rss-icon { float: right; margin: -2em 0 0 0; }
+#pkg-updates table { margin: 0; }
+#pkg-updates td.pkg-name { white-space: normal; }
+#pkg-updates td.pkg-arch { text-align: right; }
+#pkg-updates span.testing, #pkg-updates span.community-testing { font-style: italic; }
+
+
+.updates {
+	font-size: small;
+	/*position: relative;*/
+	/*top: 0px;*/
+	background: #f6efe0;
+	border: 1px solid #eee4cb;
+	padding: 10px;
+}
+#ads {
+  z-index: 0;
+  position: absolute;
+  top: 40px;
+  right: 10px;
+}
+
+#devlist {
+	width: 80%;
+	padding: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	border-top: 1px dashed black;
+	border-bottom: 1px dashed black;
+	text-align: center;
+}
+/* .news p {
+	font-size: small;
+} */
+.clear {
+	clear: both;
+	margin: 0;
+	padding: 0;
+}
+.right {
+       font-size: small;
+	float: right;
+
+	padding: 0 30px 20px 0;
+        width: 300px; 
+        
+}
+.left {
+	padding: 10px;
+	margin: 0 360px 0 0;
+}
+.left p {
+	padding-bottom: 10px;
+}
+
+div.listing {
+	padding-right: 10px;
+}
+.error {
+	color: #dd0000;
+	font-size: small;
+}
+.foot {
+	clear: both;
+        padding: 2em 0;
+	text-align: center;
+	font-size: 65%;
+        line-height: 1.5em;
+}
+
+#search input {
+	background: #f6efe0;
+	border: 1px solid #eee4cb;
+}
+.smalltext {
+	text-align: right;
+	font-size: x-small;
+}
+/*
+ * Headers
+ */
+h2 { font-size: 1.5em; margin-bottom: 0.5em; border-bottom: 1px solid #888; }
+h3 { font-size: 1.25em; margin-top: 1em; }
+h4 { font-size: 1.15em; margin-top: 1em; }
+h5 { font-size: 1em; margin-top: 1em; }
+
+
+
+h2.title {
+	border-bottom: 1px solid #46494d;
+}
+h3.title {
+	text-align: right;
+	border-bottom: 1px solid #46494d;
+}
+h4.title {
+        font-size: 1em;
+	text-align: left;
+	border-bottom: 1px solid #46494d;
+}
+h4.news {
+        font-size: 1em;
+        text-align:left;
+	border-bottom: 1px dotted #0771a6;
+        margin-bottom: .25em;
+        padding-bottom: .2em;
+}
+
+div.listing h4 {
+  color: #fff;
+	background: #0771a6;
+	padding: 3px;
+}
+/*
+ * Paragraphs, Anchors, Images
+ */
+/* p {
+	padding-bottom: 20px;
+} */
+p.news {
+	font-size: small;
+}
+
+#about {
+	position: relative;
+	top: -9px;
+}
+ol {
+	padding-left: 45px;
+}
+ul.small {
+	list-style: none;
+	font-size: x-small;
+}
+ul.links {
+	list-style: none;
+	font-size: small;
+	padding: 0px 0px 20px 20px;
+}
+ ul {
+	list-style: none;
+	font-size: small;
+	padding: 0px 0px 20px 20px;
+} 
+li {
+	list-style: none;
+}
+img {
+	border: none;
+}
+hr {
+	border: none;
+	border-top: 1px solid #46494d;
+}
+
+/* .box input, button {
+	padding: 2px;
+	background: #3ad;
+	font-size: x-small;
+	border: 1px solid #8faecd;
+} */
+button#f_trigger {
+	background: #e1e3e6;
+}
+/*
+ * Table stuff
+ */
+table.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+table#releases {
+	font-size: small;
+	width: 100%;
+}
+table#releases td {
+	padding-right: 20px;
+}
+table#repolinks {
+	font-size: small;
+	width: 100%;
+}
+table#repolinks td {
+	text-align: right;
+}
+table#repolinks th {
+	text-align: left;
+}
+table#art {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+.devpic {
+	vertical-align: top;
+	padding-right: 15px;
+}
+.devpic img {
+  padding-top: 25px;
+}
+table.deventry {
+	padding-bottom: 25px;
+}
+.deventry th {
+	text-align: left;
+	vertical-align: top;
+	white-space: nowrap;
+}
+.deventry td {
+	width: 100%;
+}
+table.results {
+	padding: 0px;
+	border-collapse: collapse;
+}
+.results th {
+	background: #e1e3e6;
+	border-bottom: 1px solid #46494d;
+	border-top: 1px solid #46494d;
+	text-align: left;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-right: 5px;
+}
+.results th>a {
+	text-decoration: none;
+	color: #46494d;
+}
+.results td {
+	padding-right: 5px;
+	vertical-align: top;
+	font-size: 0.8em;
+}
+.listing th {
+	font-size: small;
+	vertical-align: top;
+	text-align: left;
+	padding: 2px;
+}
+.listing td {
+	font-size: small;
+	padding: 2px;
+}
+blockquote.code {
+	background: #d0d0d0;
+	border: 1px solid #bbb;
+	margin-left: auto;
+	margin-right: auto;
+	white-space: nowrap;
+	padding: 5px;
+	font-family: "DejaVu Sans Mono", "Bitstream Vera Sans Mono", Courier, "Courier New", Monospace;
+}
+
+
+
+/* Used by Django's FormWrappers */
+textarea.vLargeTextField {
+	width: 450px;
+	height: 250px;
+}
+.pkgr2 {
+	background-color: #eee4cb;
+}
+.widget_rss ul li {
+	list-style: none; 
+	padding: 2px;
+}
+.widget_rss {
+	list-style: none; 
+	font-size: small;
+	/*position: relative;*/
+	top: 0px;
+	background: #f6efe0;
+	border: 1px solid #eee4cb;
+	padding: 10px;
+}
+.widget_text ul li {
+	list-style: none; 
+	padding: 2px;
+}
+.widget_text {
+	list-style: none; 
+	padding: 2px;
+}
+ul li .rsswidget {
+  font-size: 100%;
+  /* font-weight: none; */
+}
+.rsswidget {
+  padding-bottom: 25px; 
+  font-size: 120%;
+  font-weight: bold;
+}
+
+.rss_left {
+  float:left;
+}
+.rss_center {
+  float:none;
+}
+.rss_right {
+  float:right;
+}
