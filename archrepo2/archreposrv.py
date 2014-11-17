@@ -135,10 +135,10 @@ class PackageInfoHandle(RequestHandler):
     info['mtime'] = date.fromtimestamp(int(info['mtime']))
     info['builddate'] = date.fromtimestamp(int(info.get('builddate')))
     info['filesize'] = size_format(int(info.get('size')))
-    pat = re.compile(r"<[^>]*>")
-    info['packager'] = pat.sub("", info['packager'])
+    pat = re.compile(r'<[^>]*>')
+    info['packager'] = pat.sub('', info['packager'])
     info['download'] = 'http://repo.archlinuxcn.org/' + info['filename']
-    self.render("package_info.html", info=info)
+    self.render('package_info.html', info=info)
 
 def main():
   conffile = sys.argv[1]
