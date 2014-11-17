@@ -36,7 +36,6 @@ def check_and_get_repos(config):
   return repos
 
 def _execute(db, query):
-  print(query)
   conn = sqlite3.connect(db)
   conn.row_factory = dict_factory
   cursor = conn.cursor()
@@ -90,10 +89,14 @@ class PackagesHandle(RequestHandler):
 
     limit = [str(int(settings['page_size']) * (page_cur - 1)),
              str(settings['page_size'])]
-    where = 'pkgarch = forarch and state = 1'
+    where = ['pkgarch = forarch and state = 1']
+    if self.get_argument('q', ''):
+      where.append('and pkgname like "%%%s%%"' % self.get_argument('q'))
+    if self.get_arguments('arch', []):
+      where.append('and pkgarch in %s' % '("' + '","'.join(self.get_arguments('arch')) + '")')
     count = _execute(settings['db_path'], 'select count (*) as count '
                                           'from pkginfo '
-                                          'where %s' % where)[0]['count']
+                                          'where %s' % ' '.join(where))[0]['count']
     page_total = math.ceil(int(count) / int(settings['page_size']))
 
     pkgs = _execute(settings['db_path'],
@@ -101,18 +104,20 @@ class PackagesHandle(RequestHandler):
                     ' where %s'
                     ' order by %s'
                     ' limit %s'
-                    % (where, order_str, ','.join(limit)))
+                    % (' '.join(where), order_str, ','.join(limit)))
     data_list = []
     for pkg in pkgs:
       pkg['mtime'] = date.fromtimestamp(int(pkg['mtime']))
       data_list.append(pkg)
 
-    self.render("package_list.html",
+    self.render('package_list.html',
                 data_list = data_list,
                 count = count,
                 page_total = page_total,
                 page_cur = page_cur,
-                order = order,)
+                order = order,
+                q = self.get_argument('q', ''),
+                arch = self.get_arguments('arch', []),)
 
 class PackageInfoHandle(RequestHandler):
   def get(self, arch, pkgname):
